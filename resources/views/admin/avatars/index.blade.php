@@ -29,10 +29,10 @@
                             {{ trans('cruds.avatar.fields.prompt') }}
                         </th>
                         <th>
-                            {{ trans('cruds.avatar.fields.avatar_url') }}
+                            {{ trans('cruds.avatar.fields.avatar') }}
                         </th>
                         <th>
-                            {{ trans('cruds.avatar.fields.avatar') }}
+                            {{ trans('cruds.avatar.fields.avatar_url') }}
                         </th>
                         <th>
                             {{ trans('cruds.avatar.fields.completed') }}
@@ -58,10 +58,14 @@
                                 {{ $avatar->prompt ?? '' }}
                             </td>
                             <td>
-                                {{ $avatar->avatar_url ?? '' }}
+                                @if($avatar->avatar)
+                                    <a href="{{ $avatar->avatar->getUrl() }}" target="_blank">
+                                        {{ trans('global.view_file') }}
+                                    </a>
+                                @endif
                             </td>
                             <td>
-                                {{ $avatar->avatar ?? '' }}
+                                {{ $avatar->avatar_url ?? '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $avatar->completed ?? '' }}</span>
