@@ -12,7 +12,6 @@ class CreateAvatarsTable extends Migration
             $table->bigIncrements('id');
             $table->longText('prompt')->nullable();
             $table->string('avatar_url')->nullable();
-            $table->string('avatar')->nullable();
             $table->boolean('completed')->default(0)->nullable();
             $table->integer('token')->nullable();
             $table->timestamps();

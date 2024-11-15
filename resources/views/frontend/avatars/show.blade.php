@@ -36,18 +36,22 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.avatar.fields.avatar_url') }}
+                                        {{ trans('cruds.avatar.fields.avatar') }}
                                     </th>
                                     <td>
-                                        {{ $avatar->avatar_url }}
+                                        @if($avatar->avatar)
+                                            <a href="{{ $avatar->avatar->getUrl() }}" target="_blank">
+                                                {{ trans('global.view_file') }}
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.avatar.fields.avatar') }}
+                                        {{ trans('cruds.avatar.fields.avatar_url') }}
                                     </th>
                                     <td>
-                                        {{ $avatar->avatar }}
+                                        {{ $avatar->avatar_url }}
                                     </td>
                                 </tr>
                                 <tr>

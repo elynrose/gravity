@@ -25,10 +25,6 @@ class UpdateAvatarRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'avatar' => [
-                'string',
-                'nullable',
-            ],
             'token' => [
                 'nullable',
                 'integer',

@@ -28,6 +28,18 @@
                                 </tr>
                                 <tr>
                                     <th>
+                                        {{ trans('cruds.video.fields.video') }}
+                                    </th>
+                                    <td>
+                                        @if($video->video)
+                                            <a href="{{ $video->video->getUrl() }}" target="_blank">
+                                                {{ trans('global.view_file') }}
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.video.fields.video_code') }}
                                     </th>
                                     <td>
