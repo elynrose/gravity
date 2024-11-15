@@ -25,6 +25,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.audio.fields.audio_url') }}
+                        </th>
+                        <td>
+                            {{ $audio->audio_url }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.audio.fields.audio') }}
                         </th>
                         <td>
@@ -33,14 +41,6 @@
                                     {{ trans('global.view_file') }}
                                 </a>
                             @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.audio.fields.audio_url') }}
-                        </th>
-                        <td>
-                            {{ $audio->audio_url }}
                         </td>
                     </tr>
                     <tr>

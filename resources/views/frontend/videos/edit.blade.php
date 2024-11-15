@@ -28,6 +28,17 @@
                             <span class="help-block">{{ trans('cruds.video.fields.project_helper') }}</span>
                         </div>
                         <div class="form-group">
+                            <label for="video">{{ trans('cruds.video.fields.video') }}</label>
+                            <div class="needsclick dropzone" id="video-dropzone">
+                            </div>
+                            @if($errors->has('video'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('video') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.video.fields.video_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label for="video_code">{{ trans('cruds.video.fields.video_code') }}</label>
                             <input class="form-control" type="text" name="video_code" id="video_code" value="{{ old('video_code', $video->video_code) }}">
                             @if($errors->has('video_code'))
@@ -95,4 +106,57 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    Dropzone.options.videoDropzone = {
+    url: '{{ route('frontend.videos.storeMedia') }}',
+    maxFilesize: 2, // MB
+    maxFiles: 1,
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    params: {
+      size: 2
+    },
+    success: function (file, response) {
+      $('form').find('input[name="video"]').remove()
+      $('form').append('<input type="hidden" name="video" value="' + response.name + '">')
+    },
+    removedfile: function (file) {
+      file.previewElement.remove()
+      if (file.status !== 'error') {
+        $('form').find('input[name="video"]').remove()
+        this.options.maxFiles = this.options.maxFiles + 1
+      }
+    },
+    init: function () {
+@if(isset($video) && $video->video)
+      var file = {!! json_encode($video->video) !!}
+          this.options.addedfile.call(this, file)
+      file.previewElement.classList.add('dz-complete')
+      $('form').append('<input type="hidden" name="video" value="' + file.file_name + '">')
+      this.options.maxFiles = this.options.maxFiles - 1
+@endif
+    },
+     error: function (file, response) {
+         if ($.type(response) === 'string') {
+             var message = response //dropzone sends it's own error messages in string
+         } else {
+             var message = response.errors.file
+         }
+         file.previewElement.classList.add('dz-error')
+         _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+         _results = []
+         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+             node = _ref[_i]
+             _results.push(node.textContent = message)
+         }
+
+         return _results
+     }
+}
+</script>
 @endsection

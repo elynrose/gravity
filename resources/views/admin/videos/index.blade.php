@@ -26,6 +26,9 @@
                             {{ trans('cruds.video.fields.project') }}
                         </th>
                         <th>
+                            {{ trans('cruds.video.fields.video') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.video.fields.video_code') }}
                         </th>
                         <th>
@@ -53,6 +56,13 @@
                             </td>
                             <td>
                                 {{ $video->project->name ?? '' }}
+                            </td>
+                            <td>
+                                @if($video->video)
+                                    <a href="{{ $video->video->getUrl() }}" target="_blank">
+                                        {{ trans('global.view_file') }}
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 {{ $video->video_code ?? '' }}

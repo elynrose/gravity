@@ -24,6 +24,16 @@
                 <span class="help-block">{{ trans('cruds.audio.fields.project_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="audio_url">{{ trans('cruds.audio.fields.audio_url') }}</label>
+                <input class="form-control {{ $errors->has('audio_url') ? 'is-invalid' : '' }}" type="text" name="audio_url" id="audio_url" value="{{ old('audio_url', '') }}">
+                @if($errors->has('audio_url'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('audio_url') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.audio.fields.audio_url_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="audio">{{ trans('cruds.audio.fields.audio') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('audio') ? 'is-invalid' : '' }}" id="audio-dropzone">
                 </div>
@@ -33,16 +43,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.audio.fields.audio_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="audio_url">{{ trans('cruds.audio.fields.audio_url') }}</label>
-                <input class="form-control {{ $errors->has('audio_url') ? 'is-invalid' : '' }}" type="text" name="audio_url" id="audio_url" value="{{ old('audio_url', '') }}">
-                @if($errors->has('audio_url'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('audio_url') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.audio.fields.audio_url_helper') }}</span>
             </div>
             <div class="form-group">
                 <div class="form-check {{ $errors->has('completed') ? 'is-invalid' : '' }}">

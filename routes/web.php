@@ -32,6 +32,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Avatars
     Route::delete('avatars/destroy', 'AvatarsController@massDestroy')->name('avatars.massDestroy');
+    Route::post('avatars/media', 'AvatarsController@storeMedia')->name('avatars.storeMedia');
+    Route::post('avatars/ckmedia', 'AvatarsController@storeCKEditorImages')->name('avatars.storeCKEditorImages');
     Route::resource('avatars', 'AvatarsController');
 
     // Audios
@@ -42,6 +44,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Videos
     Route::delete('videos/destroy', 'VideosController@massDestroy')->name('videos.massDestroy');
+    Route::post('videos/media', 'VideosController@storeMedia')->name('videos.storeMedia');
+    Route::post('videos/ckmedia', 'VideosController@storeCKEditorImages')->name('videos.storeCKEditorImages');
     Route::resource('videos', 'VideosController');
 
     // User Alerts
@@ -88,6 +92,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
 
     // Avatars
     Route::delete('avatars/destroy', 'AvatarsController@massDestroy')->name('avatars.massDestroy');
+    Route::post('avatars/media', 'AvatarsController@storeMedia')->name('avatars.storeMedia');
+    Route::post('avatars/ckmedia', 'AvatarsController@storeCKEditorImages')->name('avatars.storeCKEditorImages');
     Route::resource('avatars', 'AvatarsController');
 
     // Audios
@@ -98,6 +104,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
 
     // Videos
     Route::delete('videos/destroy', 'VideosController@massDestroy')->name('videos.massDestroy');
+    Route::post('videos/media', 'VideosController@storeMedia')->name('videos.storeMedia');
+    Route::post('videos/ckmedia', 'VideosController@storeCKEditorImages')->name('videos.storeCKEditorImages');
     Route::resource('videos', 'VideosController');
 
     // User Alerts

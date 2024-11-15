@@ -26,10 +26,10 @@
                             {{ trans('cruds.audio.fields.project') }}
                         </th>
                         <th>
-                            {{ trans('cruds.audio.fields.audio') }}
+                            {{ trans('cruds.audio.fields.audio_url') }}
                         </th>
                         <th>
-                            {{ trans('cruds.audio.fields.audio_url') }}
+                            {{ trans('cruds.audio.fields.audio') }}
                         </th>
                         <th>
                             {{ trans('cruds.audio.fields.completed') }}
@@ -52,14 +52,14 @@
                                 {{ $audio->project->name ?? '' }}
                             </td>
                             <td>
+                                {{ $audio->audio_url ?? '' }}
+                            </td>
+                            <td>
                                 @if($audio->audio)
                                     <a href="{{ $audio->audio->getUrl() }}" target="_blank">
                                         {{ trans('global.view_file') }}
                                     </a>
                                 @endif
-                            </td>
-                            <td>
-                                {{ $audio->audio_url ?? '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $audio->completed ?? '' }}</span>

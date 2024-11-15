@@ -28,6 +28,16 @@
                             <span class="help-block">{{ trans('cruds.audio.fields.project_helper') }}</span>
                         </div>
                         <div class="form-group">
+                            <label for="audio_url">{{ trans('cruds.audio.fields.audio_url') }}</label>
+                            <input class="form-control" type="text" name="audio_url" id="audio_url" value="{{ old('audio_url', $audio->audio_url) }}">
+                            @if($errors->has('audio_url'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('audio_url') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.audio.fields.audio_url_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label for="audio">{{ trans('cruds.audio.fields.audio') }}</label>
                             <div class="needsclick dropzone" id="audio-dropzone">
                             </div>
@@ -37,16 +47,6 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.audio.fields.audio_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="audio_url">{{ trans('cruds.audio.fields.audio_url') }}</label>
-                            <input class="form-control" type="text" name="audio_url" id="audio_url" value="{{ old('audio_url', $audio->audio_url) }}">
-                            @if($errors->has('audio_url'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('audio_url') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.audio.fields.audio_url_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <div>
