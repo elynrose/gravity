@@ -6,12 +6,19 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Video;
 
 class Project extends Model
 {
     use SoftDeletes, HasFactory;
 
     public $table = 'projects';
+
+    public const GENDER_SELECT = [
+        'male' => 'Male',
+        'female' => 'Female',
+    ];
 
     public const PRIVACY_RADIO = [
         '0' => 'Private',
@@ -26,10 +33,11 @@ class Project extends Model
 
     protected $fillable = [
         'name',
+        'gender',
         'prompt',
         'script',
         'status',
-        'privacy',
+        'inputMethod',
         'user_id',
         'created_at',
         'updated_at',
@@ -51,4 +59,14 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function video($id){
+        return Video::where('project_id', $id)->first();
+    }
+
+    public function avatar()
+    {
+        return $this->hasOne(Avatar::class, 'project_id');
+    }
+
 }

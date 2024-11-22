@@ -21,11 +21,18 @@ class UpdateProjectRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'gender' => [
+                'string',
+            ],
             'prompt' => [
                 'required',
             ],
+            'inputMethod' => [
+                'string',
+            ],
             'script' => [
-                'required',
+                'string',
+                'nullable',
             ],
             'status' => [
                 'string',

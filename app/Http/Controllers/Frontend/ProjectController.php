@@ -11,6 +11,9 @@ use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\GenerateVideo;
+use App\Models\UploadAudio;
+use App\Models\Audio;
 
 class ProjectController extends Controller
 {
@@ -34,10 +37,51 @@ class ProjectController extends Controller
 
     public function store(StoreProjectRequest $request)
     {
-        $project = Project::create($request->all());
+        //check the audio file type
+       
+    
+        $request->validate([
+            'audio' => 'required_if:inputMethod,recordVoice|mimes:mp3,mp4,wav,ogg,webm',
+        ]);
 
-        return redirect()->route('frontend.projects.index');
+        $new_audio = $request->audio;
+   
+    
+        if ($request->inputMethod === 'textToSpeech') {
+
+            $project = Project::create($request->all());
+
+        } elseif ($request->inputMethod === 'recordVoice') {
+
+            if ($request->hasFile('audio') && $request->file('audio')->isValid()) {
+
+                $project = Project::create([
+                    'name' => $request->name,
+                    'prompt' => $request->prompt,
+                    'status' => $request->status,
+                    'inputMethod' => $request->inputMethod,
+                    'user_id' => $request->user_id,
+                ]);
+                
+                // Handle audio upload
+                $uploadAudio = new UploadAudio;
+                $mp3Path = $uploadAudio->new($new_audio);
+    
+                if ($project) {
+                    $audio = Audio::where('project_id', $project->id)->first();
+                    $audio->update([
+                        'path' => $mp3Path,
+                        'completed' => 0,
+                    ]);
+                }
+            } else {
+                return back()->withErrors(['audio' => 'Invalid audio file.']);
+            }
+        }
+    
+        return json_encode($project);
     }
+    
 
     public function edit(Project $project)
     {
@@ -71,6 +115,7 @@ class ProjectController extends Controller
         abort_if(Gate::denies('project_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $project->delete();
+ 
 
         return back();
     }

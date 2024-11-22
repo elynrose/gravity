@@ -21,11 +21,18 @@ class StoreProjectRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'gender' => [
+                'string',
+            ],
             'prompt' => [
                 'required',
             ],
             'script' => [
-                'required',
+                'string',
+                'nullable',
+            ],
+            'inputMethod' => [
+                'string',
             ],
             'status' => [
                 'string',

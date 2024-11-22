@@ -1,141 +1,117 @@
 @extends('layouts.frontend')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             @can('project_create')
-                <div style="margin-bottom: 10px;" class="row">
-                    <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.projects.create') }}">
-                            {{ trans('global.add') }} {{ trans('cruds.project.title_singular') }}
-                        </a>
-                    </div>
+                <div class="mb-4">
+                    <a class="btn btn-success" href="{{ route('frontend.projects.create') }}">
+                        {{ trans('global.add') }} {{ trans('cruds.project.title_singular') }}
+                    </a>
                 </div>
             @endcan
-            <div class="card">
-                <div class="card-header">
-                    {{ trans('cruds.project.title_singular') }} {{ trans('global.list') }}
-                </div>
 
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-Project">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.project.fields.name') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.project.fields.status') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.project.fields.privacy') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.project.fields.created_at') }}
-                                    </th>
-                                    <th>
-                                        &nbsp;
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($projects as $key => $project)
-                                    <tr data-entry-id="{{ $project->id }}">
-                                        <td>
-                                            {{ $project->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $project->status ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ App\Models\Project::PRIVACY_RADIO[$project->privacy] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $project->created_at ?? '' }}
-                                        </td>
-                                        <td>
-                                            @can('project_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.projects.show', $project->id) }}">
-                                                    {{ trans('global.view') }}
-                                                </a>
-                                            @endcan
-
-                                            @can('project_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.projects.edit', $project->id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
-
-                                            @can('project_delete')
-                                                <form action="{{ route('frontend.projects.destroy', $project->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                                </form>
-                                            @endcan
-
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            <div class="row">
+                @foreach($projects as $project)
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                {{ $project->name ?? 'Untitled Project' }}
+                            </div>
+                            <div class="card-body">
+                                <div class="display_{{ $project->id }}">
+                                    @if($project->avatar && $project->avatar->avatar)
+                                        <img src="{{ $project->avatar->avatar->getUrl('thumb') }}" alt="Avatar Thumbnail" class="img-fluid">
+                                    @endif
+                                </div>
+                                <p>
+                                    <span id="status_{{ $project->id }}" rel="{{ $project->id }}" 
+                                          class="@if($project->status !== 'ready') waiting @endif">
+                                        @if($project->status == 'new')
+                                            <i class="fas fa-spinner fa-spin"></i> New
+                                        @elseif($project->status == 'avatar')
+                                            <i class="fas fa-user"></i> Working...
+                                        @elseif($project->status == 'audio')
+                                            <i class="fas fa-bullhorn"></i> Creating Audio...
+                                        @elseif($project->status == 'video')
+                                            <i class="fas fa-video"></i> Creating Video...
+                                        @elseif($project->status == 'ready')
+                                            <i class="fas fa-check"></i> Completed
+                                        @endif
+                                    </span>
+                                </p>
+                                <p class="text-muted small"><strong>{{ trans('cruds.project.fields.created_at') }}:</strong> 
+                                    {{ $project->created_at ?? 'N/A' }}
+                                </p>
+                            </div>
+                            <div class="card-footer text-right">
+                                @can('project_show')
+                                    <a href="{{ $project->video($project->id)->video_url }}" 
+                                       id="download_{{ $project->id }}" 
+                                       class="@if($project->status!=='ready') hide @endif btn btn-success btn-sm text-white @if($project->status !== 'ready') hide @endif">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                @endcan
+                                @can('project_delete')
+                                    <form action="{{ route('frontend.projects.destroy', $project->id) }}" 
+                                          method="POST" 
+                                          onsubmit="return confirm('{{ trans('global.areYouSure') }}');" 
+                                          style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endcan
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-
         </div>
     </div>
 </div>
 @endsection
+
 @section('scripts')
 @parent
 <script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('project_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('frontend.projects.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
+    function getStatus() {
+        $('.waiting').each(function () {
+            let id = $(this).attr('rel');
+            let ajax_url = `/get-video/${id}`;
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
+            $('.fa_' + id).addClass('fa-spin');
+            $.ajax({
+                url: ajax_url,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: { id: id },
+                success: function (response) {
+                    let obj = response;
+                    if (obj.status === 'avatar') {
+                        $('#status_' + id).html('<i class="fas fa-user"></i> Working...');
+                    } else if (obj.status === 'audio') {
+                        $('#status_' + id).html('<i class="fas fa-bullhorn"></i> Creating Audio...');
+                    } else if (obj.status === 'video') {
+                        $('#status_' + id).html('<i class="fas fa-video"></i> Creating Video...');
+                    } else if (obj.status === 'ready') {
+                        $('#download_' + id).removeClass('hide').attr('href', obj.url);
+                        $('#status_' + id).html('<i class="fas fa-check"></i> Completed');
+                    } else if (obj.status === 'new') {
+                        $('#status_' + id).html('<i class="fas fa-spinner fa-spin"></i> New');
+                    }
+                },
+                error: function (response) {
+                    console.error(response);
+                }
+            });
+        });
     }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Project:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
-
+    setInterval(getStatus, 1000);
 </script>
 @endsection

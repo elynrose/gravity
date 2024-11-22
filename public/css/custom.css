@@ -1,3 +1,116 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+  }
+  .form-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+  }
+  .form-label {
+    font-weight: 700;
+  }
+  .btn-primary, .btn-outline-secondary {
+    width: 100%;
+    color: #fff;
+  }
+  .btn-primary {
+    background-color: #6200ea;
+    border: none;
+  }
+  .btn-outline-secondary {
+    border: 1px solid #6200ea;
+  }
+  .btn-outline-secondary:hover {
+    background-color: #6200ea;
+    color: #fff;
+  }
+  .progress-container, .voice-feedback {
+    margin-top: 15px;
+  }
+  .voice-feedback {
+    color: #bbb;
+  }
+  .counter {
+    text-align: right;
+    font-size: 0.9em;
+    color: #888;
+  }
+  .error-message {
+    color: #ff6666;
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+
+  .card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    background-color: #2a2a2a;
+    border-bottom: 1px solid #333;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ffffff;
+    padding: 15px;
+  }
+  .card-body {
+    padding: 20px;
+  }
+  .card-footer {
+    background-color: #2a2a2a;
+    border-top: 1px solid #333;
+    padding: 15px;
+    text-align: right;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+  .card-text {
+    font-size: 1rem;
+    color: #cfcfcf;
+  }
+
+  .navbar {
+    background-color: #000!important;
+    border-bottom: 1px solid #333;
+    padding: 15px;
+  }
+  .navbar-brand {
+    color: #ffffff!important;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  .navbar-brand:hover {
+    color: #03dac6!important;
+  }
+  .nav-link {
+    color: #e0e0e0!imortant;
+    font-weight: 500;
+    margin-right: 15px;
+  }
+  .nav-link:hover {
+    color: #ffffff!important;
+  }
+  .navbar-toggler {
+    background-color: #6200ea!important;
+    border: none;
+  }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%288, 8, 8, 0.7%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+
+
 .ck-editor__editable,
 textarea {
     min-height: 150px;
@@ -129,4 +242,8 @@ table.dataTable thead .sorting_desc {
 
 .custom-select.form-control-sm {
     padding: 0.25rem 1.5rem;
+}
+
+.hide {
+    display: none;
 }

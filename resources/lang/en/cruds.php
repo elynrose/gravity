@@ -123,6 +123,8 @@ return [
             'id_helper'         => ' ',
             'name'              => 'Name',
             'name_helper'       => ' ',
+            'gender'            => 'Gender',
+            'gender_helper'     => ' ',
             'prompt'            => 'Prompt',
             'prompt_helper'     => ' ',
             'script'            => 'Script',
