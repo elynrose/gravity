@@ -35,12 +35,12 @@ class AudioActionObserver
             $script = $project->script;
             $voice = $project->voice;
             
-            $tone = "shimmer";
-
-            if($tone == 'male'){
-                $voice = 'alloy';
-            }elseif($tone == 'female'){
+            if($project->gender == 'male'){
+                $voice = 'Onyx';
+            }elseif($project->gender == 'female'){
                 $voice = 'nova';
+            } else {
+                $voice = 'Alloy';
             }
 
             //start audio processing

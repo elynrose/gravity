@@ -25,7 +25,7 @@
                                         <img src="{{ $project->avatar->avatar->getUrl('thumb') }}" alt="Avatar Thumbnail" class="img-fluid">
                                     @endif
                                 </div>
-                                <p>
+                                <p class="mt-2 badge badge-primary">
                                     <span id="status_{{ $project->id }}" rel="{{ $project->id }}" 
                                           class="@if($project->status !== 'ready') waiting @endif">
                                         @if($project->status == 'new')
